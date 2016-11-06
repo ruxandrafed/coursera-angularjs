@@ -45,6 +45,8 @@ angular.module('confusionApp', [])
       }
     ];
     $scope.tab = 1;
+    $scope.showDetails = false;
+
     $scope.select = function(setTab) {
       $scope.tab = setTab;
       if (setTab === 2) {
@@ -60,5 +62,8 @@ angular.module('confusionApp', [])
     };
     $scope.isSelected = function(checkTab) {
       return ($scope.tab === checkTab);
+    };
+    $scope.toggleDetails = function() {
+      $scope.showDetails = !$scope.showDetails;
     };
   }]);
