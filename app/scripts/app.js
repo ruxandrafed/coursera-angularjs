@@ -147,10 +147,10 @@ angular.module('confusionApp', [])
       ]
     };
 
-    $scope.comment = {name:"", rating:null, comment:"" };
+    $scope.newcomment = {name:"", rating: 5, comment:"", date: new Date() };
 
     $scope.sendComment = function() {
-       console.log($scope.comment);
+       console.log($scope.newcomment);
     };
 
   }])
