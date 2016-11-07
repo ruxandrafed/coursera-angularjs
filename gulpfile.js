@@ -35,7 +35,7 @@ gulp.task('default', ['clean'], function() {
 });
 
 gulp.task('usemin',['jshint'], function () {
-  return gulp.src('./app/menu.html')
+  return gulp.src(['./app/menu.html', './app/contactus.html'])
     .pipe(usemin({
       css:[minifycss(),rev()],
       js: [ngannotate(),uglify(), rev()]
