@@ -11,11 +11,11 @@
         <!-- Bootstrap -->
 
     <!-- build:css styles/main.css -->
-    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
-    <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="styles/bootstrap-social.css" rel="stylesheet">
-    <link href="styles/mystyles.css" rel="stylesheet">
+    <link href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="../../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../styles/bootstrap-social.css" rel="stylesheet">
+    <link href="../styles/mystyles.css" rel="stylesheet">
     <!-- endbuild -->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -31,6 +31,10 @@
     <div class="container">
         <div class="row row-content" ng-controller="DishDetailController">
             <div class="col-xs-12">
+                <button class="btn btn-xs btn-primary pull-right"
+                        type="button" ui-sref="app.menu">
+                  Back to Menu
+                </button>
                 <div class="media-left media-middle">
                     <a href="#">
                         <img class="media-object img-thumbnail"
@@ -128,10 +132,10 @@
     </div>
 
     <!-- build:js scripts/main.js -->
-    <script src="../bower_components/angular/angular.min.js"></script>
-    <script src="scripts/app.js"></script>
-    <script src="scripts/controllers.js"></script>
-    <script src="scripts/services.js"></script>
+    <script src="../../bower_components/angular/angular.min.js"></script>
+    <script src="../scripts/app.js"></script>
+    <script src="../scripts/controllers.js"></script>
+    <script src="../scripts/services.js"></script>
     <!-- endbuild -->
 
 </body>
