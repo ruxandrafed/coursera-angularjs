@@ -1,31 +1,37 @@
-/**
- * Created by ruxica on 06/11/16.
- */
 'use strict';
 
 angular.module('confusionApp')
+
   .controller('MenuController', ['$scope', 'menuFactory', function($scope, menuFactory) {
 
-    $scope.dishes = menuFactory.getDishes();
     $scope.tab = 1;
+    $scope.filtText = '';
     $scope.showDetails = false;
+
+    $scope.dishes= menuFactory.getDishes();
+
 
     $scope.select = function(setTab) {
       $scope.tab = setTab;
+
       if (setTab === 2) {
         $scope.filtText = "appetizer";
       }
       else if (setTab === 3) {
         $scope.filtText = "mains";
-      } else if (setTab === 4) {
-        $scope.filtText = "dessert";
-      } else {
-        $scope.filtText = "";
       }
+      else if (setTab === 4) {
+          $scope.filtText = "dessert";
+        }
+        else {
+          $scope.filtText = "";
+        }
     };
-    $scope.isSelected = function(checkTab) {
+
+    $scope.isSelected = function (checkTab) {
       return ($scope.tab === checkTab);
     };
+
     $scope.toggleDetails = function() {
       $scope.showDetails = !$scope.showDetails;
     };
@@ -33,11 +39,9 @@ angular.module('confusionApp')
 
   .controller('ContactController', ['$scope', function($scope) {
 
-    $scope.feedback = {mychannel:"", firstName:"", lastName:"",
-      agree:false, email:"" };
+    $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
 
-    var channels = [{value: "tel", label: "Tel."},
-      {value: "Email", label:"Email"}];
+    var channels = [{value:"tel", label:"Tel."}, {value:"Email",label:"Email"}];
 
     $scope.channels = channels;
     $scope.invalidChannelSelection = false;
@@ -47,36 +51,67 @@ angular.module('confusionApp')
   .controller('FeedbackController', ['$scope', function($scope) {
 
     $scope.sendFeedback = function() {
-      // We have access to the feedback object as this controller is nested within the contact one
-      // console.log($scope.feedback);
+
+      console.log($scope.feedback);
+
       if ($scope.feedback.agree && ($scope.feedback.mychannel === "")) {
         $scope.invalidChannelSelection = true;
         console.log('incorrect');
       }
       else {
         $scope.invalidChannelSelection = false;
-        $scope.feedback = {mychannel:"", firstName:"", lastName:"",
-          agree:false, email:"" };
+        $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
         $scope.feedback.mychannel="";
-
         $scope.feedbackForm.$setPristine();
         console.log($scope.feedback);
       }
     };
-
   }])
 
   .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', function($scope, $stateParams, menuFactory) {
 
-    $scope.dish = menuFactory.getDish(parseInt($stateParams.id,10));
+    var dish= menuFactory.getDish(parseInt($stateParams.id,10));
 
-    $scope.newcomment = {author:"", rating: 5, comment:"", date: new Date() };
+    $scope.dish = dish;
 
-    $scope.sendComment = function() {
-      // console.log($scope.newcomment);
-      $scope.dish.comments.push($scope.newcomment);
-      $scope.newcomment = {author:"", rating: 5, comment:"", date: new Date() };
+  }])
+
+  .controller('DishCommentController', ['$scope', function($scope) {
+
+    $scope.mycomment = {rating:5, comment:"", author:"", date:""};
+
+    $scope.submitComment = function () {
+
+      $scope.mycomment.date = new Date().toISOString();
+      console.log($scope.mycomment);
+
+      $scope.dish.comments.push($scope.mycomment);
+
       $scope.commentForm.$setPristine();
-    };
 
-  }]);
+      $scope.mycomment = {rating:5, comment:"", author:"", date:""};
+    };
+  }])
+
+// implement the IndexController and About Controller here
+  .controller('IndexController', ['$scope', 'menuFactory', 'corporateFactory', function($scope, menuFactory, corporateFactory) {
+
+    var promotion = menuFactory.getPromotion(0);
+    var featuredDish = menuFactory.getDish(0);
+    var executiveChef = corporateFactory.getLeader(3);
+
+    $scope.promotion = promotion;
+    $scope.featuredDish = featuredDish;
+    $scope.executiveChef = executiveChef;
+
+  }])
+
+  .controller('AboutController', ['$scope', 'corporateFactory', function($scope, corporateFactory) {
+
+    var leaders= corporateFactory.getLeaders();
+
+    $scope.leaders = leaders;
+
+  }])
+
+;
