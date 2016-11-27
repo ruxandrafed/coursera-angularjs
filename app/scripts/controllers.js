@@ -54,11 +54,9 @@ angular.module('confusionApp')
 
   }])
 
-  .controller('FeedbackController', ['$scope', function($scope) {
+  .controller('FeedbackController', ['$scope', 'feedbackFactory', function($scope, feedbackFactory) {
 
     $scope.sendFeedback = function() {
-
-      console.log($scope.feedback);
 
       if ($scope.feedback.agree && ($scope.feedback.mychannel === "")) {
         $scope.invalidChannelSelection = true;
@@ -66,10 +64,11 @@ angular.module('confusionApp')
       }
       else {
         $scope.invalidChannelSelection = false;
+        feedbackFactory.getFeedback().save($scope.feedback);
         $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
         $scope.feedback.mychannel="";
         $scope.feedbackForm.$setPristine();
-        console.log($scope.feedback);
+        // console.log($scope.feedback);
       }
     };
   }])
@@ -107,8 +106,8 @@ angular.module('confusionApp')
 // implement the IndexController and About Controller here
   .controller('IndexController', ['$scope', 'menuFactory', 'corporateFactory', function($scope, menuFactory, corporateFactory) {
 
-    $scope.promotion = menuFactory.getPromotion(0);
-    $scope.executiveChef = corporateFactory.getLeader(3);
+    $scope.promotion = menuFactory.getPromotions().get({id:0});
+    $scope.executiveChef = corporateFactory.getLeaders().get({id:3});
     $scope.showDish = false;
     $scope.message = "Loading...";
     $scope.featuredDish = menuFactory.getDishes().get({id:0})
@@ -126,7 +125,14 @@ angular.module('confusionApp')
 
   .controller('AboutController', ['$scope', 'corporateFactory', function($scope, corporateFactory) {
 
-    $scope.leaders = corporateFactory.getLeaders();
+    $scope.leaders = corporateFactory.getLeaders().query(
+      function(response) {
+        $scope.leaders = response;
+      },
+      function(response) {
+        $scope.message = "Error: "+response.status+" "+response.statusText;
+      }
+    );
 
   }])
 
